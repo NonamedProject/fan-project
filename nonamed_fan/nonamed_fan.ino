@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include <Servo.h>
 
-Adafruit_MLX906 14 mlx = Adafruit_MLX90614();
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();
 Servo myservo;
 
 //핀
@@ -25,6 +25,7 @@ int OnoffStat = 0;
 int RecoStat = 0;
 int ServoTemp = 0;
 int ServoStat = 0;
+int TempStat = 0;
 
 void power()
 {
@@ -38,34 +39,34 @@ void power()
         PowerValue = 0;
         break;
       case 1:
-        digiatlWrite(Led[0] ,HIGH);
+        digitalWrite(Led[0] ,HIGH);
         PowerValue = 85;
         break;
       case 2:
-        digiatlWrite(Led[0] ,LOW);
-        digiatlWrite(Led[1] ,HIGH);
+        digitalWrite(Led[0] ,LOW);
+        digitalWrite(Led[1] ,HIGH);
         PowerValue = 170;
-        break
+        break;
       case 3:
-        digiatlWrite(Led[1] ,LOW);
-        digiatlWrite(Led[2] ,HIGH);
+        digitalWrite(Led[1] ,LOW);
+        digitalWrite(Led[2] ,HIGH);
         PowerValue = 255;
-        break
+        break;
     }
     Serial.print(PowerValue);
     Serial.println(" power");
 }
 
-void reco()
+int reco()
 {
-  digitalWrite(trig,LOW);
-  digitalWrite(echo,LOW);
+  digitalWrite(Trig,LOW);
+  digitalWrite(Echo,LOW);
   delayMicroseconds(2);
-  digitalWrite(trig,HIGH);
+  digitalWrite(Trig,HIGH);
   delayMicroseconds(10);
-  digitalWrite(echo,HIGH);
+  digitalWrite(Echo,HIGH);
 
-  unsigned long duration = pulseIn(echo, HIGH);
+  unsigned long duration = pulseIn(Echo, HIGH);
   float distance = ((float)(340 * duration) / 10000) /2;
 
   if(distance <=200 || distance >= 2700) 
@@ -74,16 +75,19 @@ void reco()
   {
     delay(2000);
     if(distance <=200 || distance >= 2700) 
-      continue;
+      analogWrite(Motor,PowerValue);
     digitalWrite(Motor,LOW);
   }
+  if(digitalRead(RecoBtn) == HIGH)
+    return 0;
   Serial.print(distance);
   Serial.println(" recomode");
 }
 
-void temp()
+int temp()
 {
-  
+  if(digitalRead(TempBtn) == HIGH)
+    return 0;
 }
 
 void servo()
@@ -123,7 +127,7 @@ void setup() {
   pinMode(RecoBtn,INPUT);
   pinMode(TempBtn,INPUT);
   pinMode(OnoffBtn,INPUT);
-  for(i=0;i<3li++) pinMode(Led[i],OUTPUT);
+  for(i=0;i<3;i++) pinMode(Led[i],OUTPUT);
   
   //temp
   mlx.begin();
@@ -135,11 +139,11 @@ void setup() {
 void loop() {
   while(digitalRead(OnoffBtn))
   {
-    if (Onoff(stat == 1) OnoffStat = 0;
-    else OnoffStat = 1
+    if (OnoffStat == 1) OnoffStat = 0;
+    else OnoffStat = 1;
   }
   
-  while(Onoffstat)
+  while(OnoffStat)
   {
     //Power
     while(digitalRead(PowerBtn))
@@ -156,10 +160,21 @@ void loop() {
       RecoStat == HIGH;
     if(RecoStat == HIGH)
     {
+      TempStat = LOW;
+      RecoStat = LOW;
       reco();
     }
 
     //temp
+    while(digitalRead(TempBtn))
+      TempStat == HIGH;
+    if(TempStat == HIGH)
+    {
+      RecoStat = LOW;
+      TempStat = LOW;
+      temp();
+    }
+    
     //servo
     while(digitalRead(ServoBtn))
       ServoStat == HIGH;
