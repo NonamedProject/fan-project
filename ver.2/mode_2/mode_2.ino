@@ -87,28 +87,28 @@ void recoservo()
   if(reco1 == 1 && reco2 == 1)
   {
     for(i = 0 ; i <= 90 ; i++)
-      myservo.attach(i);
+      myservo.write(i);
     delay(3000);
     for(i = 90 ; i >= 0 ; i--)
-      myservo.attach(i);
+      myservo.write(i);
     delay(3000);
   }
   if(reco1 == 1 && reco3 == 1)
   {
     for(i = 0 ; i <= 180 ; i++)
-      myservo.attach(i);
+      myservo.write(i);
     delay(3000);
     for(i = 180 ; i >= 0 ; i--)
-      myservo.attach(i);
+      myservo.write(i);
     delay(3000);
   }
   if(reco2 == 1 && reco3 == 1)
   {
     for(i = 90 ; i <= 180 ; i++)
-      myservo.attach(i);
+      myservo.write(i);
     delay(3000);
     for(i = 180 ; i >= 90; i--)
-      myservo.attach(i);
+      myservo.write(i);
     delay(3000);
   }
   
@@ -116,16 +116,16 @@ void recoservo()
   if(reco1 == 1 && reco2 == 1 && reco3 == 1)
   {
     for(i = 0 ; i <= 90 ; i++)
-      myservo.attach(i);
+      myservo.write(i);
     delay(3000);
     for(i = 90 ; i<= 180; i++)
-      myservo.attach(i);
+      myservo.write(i);
     delay(3000);
     for(i = 180 ; i >= 90; i--)
-      myservo.attach(i);
+      myservo.write(i);
     delay(3000);
     for(i = 90 ; i >= 0; i--)
-      myservo.attach(i);
+      myservo.write(i);
     delay(3000);
   }
 
