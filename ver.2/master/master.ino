@@ -19,6 +19,7 @@ int mode_2Stat;
 int mode_3Stat;
 float setTemp;
 float curTemp;
+int cnt=0;
 
 void Set_temp()   //설정 온도 출력
 {
@@ -82,10 +83,31 @@ void loop()
   }
         
   if (digitalRead(upBtn) == HIGH)
+  {
     Serial.print('3');
+    if(cnt<3)
+      cnt++;
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Current power");
+    lcd.setCursor(0,1);
+    lcd.print(cnt);
+    delay(2000);
+  }
+    
         
   if (digitalRead(downBtn) == HIGH)
+  {
     Serial.print('4');
+    if(cnt>1)
+      cnt--;
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Current power");
+    lcd.setCursor(0,1);
+    lcd.print(cnt);
+    delay(2000);
+  }
         
   if (digitalRead(mode1Btn) ==HIGH)
   {
@@ -93,6 +115,11 @@ void loop()
     {
       Serial.print('5');
       mode_1Stat == 0;
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("Current mode");
+      lcd.setCursor(0,1);
+      lcd.print("mode1");
     }
     else
     {
@@ -107,6 +134,11 @@ void loop()
     {
       Serial.print('7');
       mode_2Stat == 0;
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("Current mode");
+      lcd.setCursor(0,1);
+      lcd.print("mode1");
     }
     else
     {
@@ -122,6 +154,11 @@ void loop()
     {
       Serial.print('9');
       mode_3Stat == 0;
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("Current mode");
+      lcd.setCursor(0,1);
+      lcd.print("mode1");
     }
     else
     {
