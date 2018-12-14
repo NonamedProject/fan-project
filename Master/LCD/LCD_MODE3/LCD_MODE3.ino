@@ -1,10 +1,6 @@
-#include <SimpleTimer.h>
 #include <LiquidCrystal_I2C.h>
-#include <Adafruit_MLX90614.h>
 #include <Wire.h>
 
-//SimpleTimer timer;
-//Adafruit_MLX90614 mlx = Adafruit_MLX90614();
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 #define MODE3_MENU_NOW_TEMP 1
 #define MODE3_MENU_SET_TEMP -1
@@ -30,13 +26,14 @@ void setup() {
   lcd. backlight();
   Hello_select_menu();
 
- // timer.setInterval(1000, Temp_value);
-  Serial.begin(9600);
+
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
- // timer.run();
+  if(Serial.available()){   //시리얼 버퍼가 차있으면
+    nowTemp = (float)Serial.read();//읽어온 것을 현재 온도에 저장
+  }
 
   if(digitalRead(mode3_Btn) == LOW)
   {
@@ -120,9 +117,7 @@ void Set_temp()   //설정 온도 출력
 }
 
 void Current_temp() //현재 온도 출력
-{
- // MsTimer2::stop();
-  
+{  
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Current Temp");
@@ -139,9 +134,4 @@ void Setup_completed()
   delay(1000);
   completed = 0;
 }
-
-/*void Temp_value()
-{
-    nowTemp = mlx.readObjectTempC();
-}*/
 
