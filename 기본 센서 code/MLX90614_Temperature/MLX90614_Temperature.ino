@@ -1,5 +1,5 @@
-#include <Adafruit_MLX90614.h>
 #include <Wire.h>
+#include <Adafruit_MLX90614.h>
  
 Adafruit_MLX90614 mlx = Adafruit_MLX90614();
  
@@ -18,5 +18,5 @@ void loop() {
   Serial.print("*F\tObject = "); Serial.print(mlx.readObjectTempF()); Serial.println("*F");
  
   Serial.println();
-  delay(500);
+  delay(3000);
 }
