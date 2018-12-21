@@ -19,7 +19,7 @@ int i;
 
 void reco()
 {
-  /*get distance*/
+   /*get distance*/
   //reco1
   digitalWrite(trig1,LOW);
   digitalWrite(echo1,LOW);
@@ -71,61 +71,112 @@ void reco()
     reco3 = 1;
   else 
     reco3 = 0;
+/*
+  Serial.print("reco1: ");
+  Serial.print(reco1);
+  Serial.print("  reco2: ");
+  Serial.print(reco2);
+  Serial.print("  reco3: ");
+  Serial.println(reco3); 
+*/
 }
 
 void recoservo()
 {
   //1 recognition
   if(reco1 == 1)
+  {
+    Serial.println("reco1");
     myservo.write(0);
+  } 
   else if(reco2 == 1)
+  {
+    Serial.println("reco2");
     myservo.write(90);
+  }
   else if(reco3 == 1)
+  {
+    Serial.println("reco3");
     myservo.write(180);
+  }
   
   //2 recognition
   if(reco1 == 1 && reco2 == 1)
   {
+    Serial.println("reco1&reco2");
     for(i = 0 ; i <= 90 ; i++)
+    {
       myservo.write(i);
+      delay(100);
+    }
     delay(3000);
     for(i = 90 ; i >= 0 ; i--)
+    {
       myservo.write(i);
+      delay(100);
+    }
     delay(3000);
   }
   if(reco1 == 1 && reco3 == 1)
   {
+    Serial.println("reco1&reco2");
     for(i = 0 ; i <= 180 ; i++)
+    {
       myservo.write(i);
+      delay(100);
+    }
     delay(3000);
     for(i = 180 ; i >= 0 ; i--)
+    {
       myservo.write(i);
+      delay(100);
+    }
     delay(3000);
   }
   if(reco2 == 1 && reco3 == 1)
   {
+    Serial.println("reco1&reco3");
     for(i = 90 ; i <= 180 ; i++)
+    {
       myservo.write(i);
+      delay(100);
+    }
     delay(3000);
     for(i = 180 ; i >= 90; i--)
+    {
       myservo.write(i);
+      delay(100);
+    }
     delay(3000);
   }
   
   //3 recognition
   if(reco1 == 1 && reco2 == 1 && reco3 == 1)
   {
+    Serial.println("allreco");
     for(i = 0 ; i <= 90 ; i++)
-      myservo.write(i);
+    {
+     myservo.write(i);
+     delay(100); 
+    }
     delay(3000);
     for(i = 90 ; i<= 180; i++)
+    {
       myservo.write(i);
+      delay(100);
+    }
     delay(3000);
     for(i = 180 ; i >= 90; i--)
+    {
       myservo.write(i);
+      delay(100);
+    }
     delay(3000);
     for(i = 90 ; i >= 0; i--)
+    {
       myservo.write(i);
+      delay(100);
+    }
     delay(3000);
   }
 
@@ -149,9 +200,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   reco();
   recoservo();
-
-  
 }
